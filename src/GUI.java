@@ -13,7 +13,7 @@ import java.awt.event.KeyEvent;
 /**
  * 
  * @author maxkratz
- * @version 0.7.2
+ * @version 0.7.3
  *
  */
 public class GUI {
@@ -52,11 +52,61 @@ public class GUI {
   }
 
   /**
+   * Calculates the possibilites for given parameters.
+   * 
+   * @param possibilityOne possibility one
+   * @param possibilityTwo possibility two
+   * @param chckbxLetters set letter
+   * @param chckbxCapitalLetters set capital letters
+   * @param chckbxSymbols set symbols
+   * @param chckbxNumbers set numbers
+   * 
+   * @return calculated Possibilities
+   */
+  public double calculatePossibilities(Boolean possibilityOne, Boolean possibilityTwo,
+      Boolean chckbxLetters, Boolean chckbxCapitalLetters, Boolean chckbxSymbols,
+      Boolean chckbxNumbers) {
+    // Calculate the number of possibilities specified for the selection:
+    if (possibilityOne && possibilityTwo) {
+      double calculatedPossibility = 0;
+      int numberOfSymbolsPassword = Integer.parseInt(textField_lengthPassword.getText());
+
+      // new version
+      int counter = 0;
+
+      // letters
+      if (chckbxLetters) {
+        counter = counter + 26;
+      }
+
+      // capital letters
+      if (chckbxCapitalLetters) {
+        counter = counter + 26;
+      }
+
+      // numbers
+      if (chckbxNumbers) {
+        counter = counter + 10;
+      }
+
+      // symbols
+      if (chckbxSymbols) {
+        counter = counter + 29;
+      }
+
+      calculatedPossibility = Math.pow(counter, numberOfSymbolsPassword);
+      return calculatedPossibility;
+    } else {
+      return -1;
+    }
+  }
+
+  /**
    * Initialize the contents of the frame.
    */
   private void initialize() {
     frmPasswordgeneratorV = new JFrame();
-    frmPasswordgeneratorV.setTitle("Password-Generator v.0.7.2");
+    frmPasswordgeneratorV.setTitle("Password-Generator v.0.7.3");
     frmPasswordgeneratorV.setBounds(100, 100, 520, 300);
     frmPasswordgeneratorV.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frmPasswordgeneratorV.getContentPane().setLayout(null);
@@ -141,7 +191,8 @@ public class GUI {
         try {
           textField_password.setText(myGen.generateString(chckbxLetters.isSelected(),
               chckbxCapitalLetters.isSelected(), chckbxNumbers.isSelected(),
-              chckbxSymbols.isSelected(), Integer.parseInt(textField_lengthPassword.getText())));
+              chckbxSymbols.isSelected(),
+              Integer.parseInt(textField_lengthPassword.getText())));
           possibilityTwo = true;
         } catch (java.lang.NumberFormatException ex) {
           System.out.println("Error: The text entered in lenght of password is invalid.");
@@ -151,82 +202,34 @@ public class GUI {
           textField_password.setText("Input invalid.");
         }
 
-        // Calculate the number of possibilities specified for the selection:
-        if (possibilityOne && possibilityTwo) {
-          double calculatedPossibility = 0;
-          int numberOfSymbolsPassword = Integer.parseInt(textField_lengthPassword.getText());
+        double calculatedPossibility = calculatePossibilities(possibilityOne, possibilityTwo,
+            chckbxLetters.isSelected(), chckbxCapitalLetters.isSelected(),
+            chckbxSymbols.isSelected(), chckbxNumbers.isSelected());
 
-          // all selected
-          if (chckbxLetters.isSelected() && chckbxNumbers.isSelected()
-              && chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(91, numberOfSymbolsPassword);
+        // test if calculatedPossibility is larger than max of double
+        if (calculatedPossibility <= 1.567727E308) {
+          // if the string contains no "E" it is not in exponential spelling
+          if (!String.valueOf(calculatedPossibility).contains("E")) {
+            textField_possibilities.setText(String.valueOf((int) calculatedPossibility));
           }
 
-          // letters
-          else if (chckbxLetters.isSelected() && !chckbxNumbers.isSelected()
-              && !chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(26, numberOfSymbolsPassword);
-          }
-
-          // numbers
-          else if (!chckbxLetters.isSelected() && chckbxNumbers.isSelected()
-              && !chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(10, numberOfSymbolsPassword);
-          }
-
-          // symbols
-          else if (!chckbxLetters.isSelected() && !chckbxNumbers.isSelected()
-              && chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(29, numberOfSymbolsPassword);
-          }
-
-          // letters and numbers
-          else if (chckbxLetters.isSelected() && chckbxNumbers.isSelected()
-              && !chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(35, numberOfSymbolsPassword);
-          }
-
-          // letters and symbols
-          else if (chckbxLetters.isSelected() && !chckbxNumbers.isSelected()
-              && chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(54, numberOfSymbolsPassword);
-          }
-
-          // numbers and symbols
-          else if (!chckbxLetters.isSelected() && chckbxNumbers.isSelected()
-              && chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(39, numberOfSymbolsPassword);
-          }
-
-          // nothing selected
           else {
-            calculatedPossibility = 0;
+            /*
+             * Not working yet :-)
+             */
+
+            // Debug:
+            textField_possibilities.setText(String.valueOf(calculatedPossibility));
           }
+        }
 
-          // test if calculatedPossibility is larger than max of double
-          if (calculatedPossibility <= 1.567727E308) {
-            // if the string contains no "E" it is not in exponential spelling
-            if (!String.valueOf(calculatedPossibility).contains("E")) {
-              textField_possibilities.setText(String.valueOf((int) calculatedPossibility));
-            }
-
-            else {
-              /*
-               * Not working yet :-)
-               */
-
-              // Debug:
-              textField_possibilities.setText(String.valueOf(calculatedPossibility));
-            }
-          }
-
-          // calculatedPossibility is larger than max of double
-          else {
-            textField_possibilities.setText("Larger than: 1.56 E308");
-          }
+        // calculatedPossibility is larger than max of double
+        else {
+          textField_possibilities.setText("Larger than: 1.56 E308");
         }
       }
     });
+
     textField_lengthName.setText("8");
     textField_lengthName.setBounds(129, 6, 66, 26);
     frmPasswordgeneratorV.getContentPane().add(textField_lengthName);
@@ -266,7 +269,8 @@ public class GUI {
         try {
           textField_password.setText(myGen.generateString(chckbxLetters.isSelected(),
               chckbxCapitalLetters.isSelected(), chckbxNumbers.isSelected(),
-              chckbxSymbols.isSelected(), Integer.parseInt(textField_lengthPassword.getText())));
+              chckbxSymbols.isSelected(),
+              Integer.parseInt(textField_lengthPassword.getText())));
           possibilityTwo = true;
         } catch (java.lang.NumberFormatException ex) {
           System.out.println("Error: The text entered in lenght of password is invalid.");
@@ -275,80 +279,30 @@ public class GUI {
 
           textField_password.setText("Invalid input.");
         }
+        double calculatedPossibility = calculatePossibilities(possibilityOne, possibilityTwo,
+            chckbxLetters.isSelected(), chckbxCapitalLetters.isSelected(),
+            chckbxSymbols.isSelected(), chckbxNumbers.isSelected());
 
-        // calculate number of possibilities
-        if (possibilityOne && possibilityTwo) {
-          double calculatedPossibility = 0;
-          int numberOfSymbolsPassword = Integer.parseInt(textField_lengthPassword.getText());
-
-          // all selected
-          if (chckbxLetters.isSelected() && chckbxNumbers.isSelected()
-              && chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(91, numberOfSymbolsPassword);
+        // test if calculatedPossibility is larger than max of double
+        if (calculatedPossibility <= 1.567727E308) {
+          // if the string contains no "E" it is not in exponential spelling
+          if (!String.valueOf(calculatedPossibility).contains("E")) {
+            textField_possibilities.setText(String.valueOf((int) calculatedPossibility));
           }
 
-          // letters
-          else if (chckbxLetters.isSelected() && !chckbxNumbers.isSelected()
-              && !chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(25, numberOfSymbolsPassword);
-          }
-
-          // numbers
-          else if (!chckbxLetters.isSelected() && chckbxNumbers.isSelected()
-              && !chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(10, numberOfSymbolsPassword);
-          }
-
-          // symbols
-          else if (!chckbxLetters.isSelected() && !chckbxNumbers.isSelected()
-              && chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(29, numberOfSymbolsPassword);
-          }
-
-          // letters and numbers
-          else if (chckbxLetters.isSelected() && chckbxNumbers.isSelected()
-              && !chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(35, numberOfSymbolsPassword);
-          }
-
-          // letters and symbols
-          else if (chckbxLetters.isSelected() && !chckbxNumbers.isSelected()
-              && chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(54, numberOfSymbolsPassword);
-          }
-
-          // numbers and symbols
-          else if (!chckbxLetters.isSelected() && chckbxNumbers.isSelected()
-              && chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(39, numberOfSymbolsPassword);
-          }
-
-          // nothing selected
           else {
-            calculatedPossibility = 0;
+            /*
+             * Not working yet :-)
+             */
+
+            // Debug:
+            textField_possibilities.setText(String.valueOf(calculatedPossibility));
           }
+        }
 
-          // calculate the correct number of possibilities
-          if (calculatedPossibility <= 1.567727E308) {
-            // if the string contains no "E" it is not in exponential spelling
-            if (!String.valueOf(calculatedPossibility).contains("E")) {
-              textField_possibilities.setText(String.valueOf((int) calculatedPossibility));
-            }
-
-            else {
-              /*
-               * not working yet :-)
-               */
-
-              // Debug:
-              textField_possibilities.setText(String.valueOf(calculatedPossibility));
-            }
-          }
-
-          // number of possibilities is larger than max of double
-          else {
-            textField_possibilities.setText("Larger than: 1.56 E308");
-          }
+        // calculatedPossibility is larger than max of double
+        else {
+          textField_possibilities.setText("Larger than: 1.56 E308");
         }
       }
     });
@@ -399,7 +353,8 @@ public class GUI {
         try {
           textField_password.setText(myGen.generateString(chckbxLetters.isSelected(),
               chckbxCapitalLetters.isSelected(), chckbxNumbers.isSelected(),
-              chckbxSymbols.isSelected(), Integer.parseInt(textField_lengthPassword.getText())));
+              chckbxSymbols.isSelected(),
+              Integer.parseInt(textField_lengthPassword.getText())));
           possibilityTwo = true;
         } catch (java.lang.NumberFormatException ex) {
           System.out.println("Error: The text entered in lenght of password is invalid.");
@@ -409,79 +364,30 @@ public class GUI {
           textField_password.setText("Input invalid.");
         }
 
-        // calculate the number of possibilities
-        if (possibilityOne && possibilityTwo) {
-          double calculatedPossibility = 0;
-          int numberOfSymbolsPassword = Integer.parseInt(textField_lengthPassword.getText());
+        double calculatedPossibility = calculatePossibilities(possibilityOne, possibilityTwo,
+            chckbxLetters.isSelected(), chckbxCapitalLetters.isSelected(),
+            chckbxSymbols.isSelected(), chckbxNumbers.isSelected());
 
-          // everything checked
-          if (chckbxLetters.isSelected() && chckbxNumbers.isSelected()
-              && chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(91, numberOfSymbolsPassword);
+        // test if calculatedPossibility is larger than max of double
+        if (calculatedPossibility <= 1.567727E308) {
+          // if the string contains no "E" it is not in exponential spelling
+          if (!String.valueOf(calculatedPossibility).contains("E")) {
+            textField_possibilities.setText(String.valueOf((int) calculatedPossibility));
           }
 
-          // letters
-          else if (chckbxLetters.isSelected() && !chckbxNumbers.isSelected()
-              && !chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(25, numberOfSymbolsPassword);
-          }
-
-          // numbers
-          else if (!chckbxLetters.isSelected() && chckbxNumbers.isSelected()
-              && !chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(10, numberOfSymbolsPassword);
-          }
-
-          // symbols
-          else if (!chckbxLetters.isSelected() && !chckbxNumbers.isSelected()
-              && chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(29, numberOfSymbolsPassword);
-          }
-
-          // letters and numbers
-          else if (chckbxLetters.isSelected() && chckbxNumbers.isSelected()
-              && !chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(35, numberOfSymbolsPassword);
-          }
-
-          // letters and symbols
-          else if (chckbxLetters.isSelected() && !chckbxNumbers.isSelected()
-              && chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(54, numberOfSymbolsPassword);
-          }
-
-          // numbers and symbols
-          else if (!chckbxLetters.isSelected() && chckbxNumbers.isSelected()
-              && chckbxSymbols.isSelected()) {
-            calculatedPossibility = Math.pow(39, numberOfSymbolsPassword);
-          }
-
-          // nothing checked
           else {
-            calculatedPossibility = 0;
+            /*
+             * Not working yet :-)
+             */
+
+            // Debug:
+            textField_possibilities.setText(String.valueOf(calculatedPossibility));
           }
+        }
 
-          // calculate the correct number of possibilities:
-          if (calculatedPossibility <= 1.567727E308) {
-            // if the string contains no "E" it is not in exponential spelling
-            if (!String.valueOf(calculatedPossibility).contains("E")) {
-              textField_possibilities.setText(String.valueOf((int) calculatedPossibility));
-            }
-
-            else {
-              /*
-               * not working yet :-)
-               */
-
-              // Debug:
-              textField_possibilities.setText(String.valueOf(calculatedPossibility));
-            }
-          }
-
-          // calculated number of possibilities is larger than max of double
-          else {
-            textField_possibilities.setText("Larger than: 1.56 E308");
-          }
+        // calculatedPossibility is larger than max of double
+        else {
+          textField_possibilities.setText("Larger than: 1.56 E308");
         }
       }
     });
