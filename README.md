@@ -7,4 +7,4 @@ Java-project for generating random passwords with a specific length.
 - Easy to use with a GUI
 
 ## Download
-- Download the latest version from here: [Download](https://github.com/maxkratz/password-generator/blob/master/release/Password-Generator%20v.0.7.2.jar)
+- Download the latest version from here: [Download](https://github.com/maxkratz/password-generator/blob/master/release/Password-Generator%20v.0.7.3.jar)
