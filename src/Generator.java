@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * Class for generating random strings.
- * 
+ *
  * @author maxkratz
  * @version 0.7.0
  *
@@ -13,7 +13,7 @@ public class Generator {
 
   /**
    * Returns a random string with a specific length.
-   * 
+   *
    * @param letter If true, include letters.
    * @param capitalLetter If true, include capital letters.
    * @param number If true, include numbers.

@@ -12,12 +12,12 @@ import javax.swing.JTextField;
 
 /**
  * GUI and main method for running the application.
- * 
+ *
  * @author maxkratz
  * @version 0.8.0
  *
  */
-public class GUI {
+public class Gui {
 
   /**
    * JFrame window (GUI).
@@ -56,7 +56,7 @@ public class GUI {
 
   /**
    * Launch the application.
-   * 
+   *
    * @param args Main arguments (that will be ignored).
    */
   public static void main(final String[] args) {
@@ -64,7 +64,7 @@ public class GUI {
       @Override
       public void run() {
         try {
-          final GUI window = new GUI();
+          final Gui window = new Gui();
           window.frame.setVisible(true);
         } catch (final Exception e) {
           e.printStackTrace();
@@ -76,7 +76,7 @@ public class GUI {
   /**
    * Create the application.
    */
-  public GUI() {
+  public Gui() {
     // window setup
     frame = new JFrame();
     frame.setResizable(false);
@@ -223,17 +223,13 @@ public class GUI {
           // if the string contains no "E" it is not in exponential spelling
           if (!String.valueOf(calculatedPossibility).contains("E")) {
             tfPossibilities.setText(String.valueOf((int) calculatedPossibility));
-          }
-
-          else {
+          } else {
             // TODO: Implement this.
             // Debug:
             tfPossibilities.setText(String.valueOf(calculatedPossibility));
           }
-        }
-
-        // calculatedPossibility is larger than max of double
-        else {
+        } else {
+          // calculatedPossibility is larger than max of double
           tfPossibilities.setText("Larger than: 1.56 E308");
         }
       }

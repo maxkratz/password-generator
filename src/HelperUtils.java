@@ -3,7 +3,7 @@ import java.util.Set;
 
 /**
  * More or less generic helper class.
- * 
+ *
  * @author maxkratz
  * @version 0.1.0
  *
@@ -14,7 +14,7 @@ public class HelperUtils {
 
   /**
    * Returns a set of integers from min to max (inclusive).
-   * 
+   *
    * @param min Lower bound.
    * @param max Upper bound.
    * @return Set of integer with values from min to max.
@@ -31,7 +31,7 @@ public class HelperUtils {
 
   /**
    * Calculates the number of possibilities for given parameters.
-   * 
+   *
    * @param chckbxLetters True if letters are selected.
    * @param chckbxCapitalLetters True if capital letters are selected.
    * @param chckbxSymbols True if symbols are selected.
