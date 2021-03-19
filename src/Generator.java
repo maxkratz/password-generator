@@ -1,10 +1,9 @@
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 /**
+ * Class for generating random strings.
  * 
  * @author maxkratz
  * @version 0.7.0
@@ -28,22 +27,22 @@ public class Generator {
     final List<Integer> values = new ArrayList<Integer>();
 
     if (letter) {
-      values.addAll(fillRangesInSet(97, 122));
+      values.addAll(HelperUtils.fillRangesInSet(97, 122));
     }
 
     if (capitalLetter) {
-      values.addAll(fillRangesInSet(65, 90));
+      values.addAll(HelperUtils.fillRangesInSet(65, 90));
     }
 
     if (number) {
-      values.addAll(fillRangesInSet(48, 57));
+      values.addAll(HelperUtils.fillRangesInSet(48, 57));
     }
 
     if (symbol) {
-      values.addAll(fillRangesInSet(33, 47));
-      values.addAll(fillRangesInSet(58, 64));
-      values.addAll(fillRangesInSet(91, 96));
-      values.addAll(fillRangesInSet(123, 126));
+      values.addAll(HelperUtils.fillRangesInSet(33, 47));
+      values.addAll(HelperUtils.fillRangesInSet(58, 64));
+      values.addAll(HelperUtils.fillRangesInSet(91, 96));
+      values.addAll(HelperUtils.fillRangesInSet(123, 126));
     }
 
     return rand.ints(0, values.size()) //
@@ -51,23 +50,6 @@ public class Generator {
         .map(i -> values.get(i)) //
         .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append) //
         .toString();
-  }
-
-  /**
-   * Returns a set of integers from min to max (inclusive).
-   * 
-   * @param min Lower bound.
-   * @param max Upper bound.
-   * @return Set of integer with values from min to max.
-   */
-  private Set<Integer> fillRangesInSet(final int min, final int max) {
-    final Set<Integer> range = new HashSet<Integer>();
-
-    for (int i = min; i <= max; i++) {
-      range.add(i);
-    }
-
-    return range;
   }
 
 }
