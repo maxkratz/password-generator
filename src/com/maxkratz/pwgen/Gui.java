@@ -1,4 +1,6 @@
-import java.awt.EventQueue;
+package com.maxkratz.pwgen;
+
+import com.maxkratz.pwgen.utils.HelperUtils;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -11,7 +13,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
 /**
- * GUI and main method for running the application.
+ * GUI for users.
  *
  * @author maxkratz
  * @version 0.8.0
@@ -22,7 +24,7 @@ public class Gui {
   /**
    * JFrame window (GUI).
    */
-  private final JFrame frame;
+  final JFrame frame;
 
   /**
    * Random string generator.
@@ -53,25 +55,6 @@ public class Gui {
    * Text field for the number of possible combinations (output).
    */
   private final JTextField tfPossibilities;
-
-  /**
-   * Launch the application.
-   *
-   * @param args Main arguments (that will be ignored).
-   */
-  public static void main(final String[] args) {
-    EventQueue.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          final Gui window = new Gui();
-          window.frame.setVisible(true);
-        } catch (final Exception e) {
-          e.printStackTrace();
-        }
-      }
-    });
-  }
 
   /**
    * Create the application.

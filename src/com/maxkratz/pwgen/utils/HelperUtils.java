@@ -1,3 +1,5 @@
+package com.maxkratz.pwgen.utils;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,7 +39,6 @@ public class HelperUtils {
    * @param chckbxSymbols True if symbols are selected.
    * @param chckbxNumbers True if numbers are selected.
    * @param length Length of random string.
-   * 
    * @return Calculated number of possibilities.
    */
   public static double calculatePossibilities(final Boolean chckbxLetters,

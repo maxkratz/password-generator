@@ -1,3 +1,6 @@
+package com.maxkratz.pwgen;
+
+import com.maxkratz.pwgen.utils.HelperUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -7,7 +10,7 @@ import java.util.Random;
  *
  * @author maxkratz
  * @version 0.7.0
- *
+ * 
  */
 public class Generator {
 
