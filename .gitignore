@@ -25,3 +25,10 @@ hs_err_pid*
 
 # Eclipse
 .project
+/bin/
+
+.settings/
+
+.classpath
+
+settings/eclipse-java-google-style.xml
